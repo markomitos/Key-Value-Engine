@@ -1,0 +1,15 @@
+wal_buffer_capacity: 10
+wal_water_mark: 20
+memtable_size: 40
+memtable_structure: "skiplist"
+sstable_interval: 10
+bloom_falsepositive_rate: 2.0
+btree_num_of_children: 3
+skiplist_max_height: 10
+sstable_file_config: "single"
+token_cap: 20
+token_rate: 10
+lsm_max_level: 7
+compaction_type: "size_tiered"
+lru_cap: 5
+leveled_compaction_multiplier: 3
