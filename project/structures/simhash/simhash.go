@@ -94,11 +94,8 @@ func HashText(weightedMap map[string]int) []int {
 	return sumArray
 }
 
-//poredi dva niza bajtova i vraca hemingovo rastojanje
-func Compare(val1 []byte, val2 []byte) int {
-	
-	a := HashText(GenerateWeightedMap(val1))
-	b := HashText(GenerateWeightedMap(val2))
+//poredi dva niza hashiranih vrednosti i vraca hemingovo rastojanje
+func Compare(a []byte, b []byte) int {
 
 	result := 0
 	for i := 0; i < 256; i++ {
