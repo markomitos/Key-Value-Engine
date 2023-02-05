@@ -26,8 +26,8 @@ func ToBinary(s string) string {
 //pretvara niz bajtova u mapu
 //kljuc - rec
 //vrednost - broj ponavljanja te reci
-func GenerateWeightedMap(bytes []byte) map[string]int {
-	mapa := make(map[string]int)
+func GenerateWeightedMap(bytes []byte) map[string]int32 {
+	mapa := make(map[string]int32)
 
 	text := string(bytes)
 
@@ -53,7 +53,7 @@ func GenerateWeightedMap(bytes []byte) map[string]int {
 }
 
 //Hash i konvertovanje u binarno
-func HashText(weightedMap map[string]int) []int {
+func HashText(weightedMap map[string]int32) []int32 {
 
 	hashedMap := make(map[string]string)
 	for i, _ := range weightedMap {
@@ -61,9 +61,9 @@ func HashText(weightedMap map[string]int) []int {
 	}
 
 	//nule pretvara u -1
-	valueMap := make(map[string][]int)
+	valueMap := make(map[string][]int32)
 	for word, bitset := range hashedMap {
-		valueMap[word] = make([]int, 256)
+		valueMap[word] = make([]int32, 256)
 		for index, bit := range bitset {
 			// fmt.PrintLn(valueMap[i])
 			if bit == '0' {
@@ -75,7 +75,7 @@ func HashText(weightedMap map[string]int) []int {
 	}
 
 	//Sabira kolone pomnozene tezinom
-	sumArray := make([]int, 256)
+	sumArray := make([]int32, 256)
 	for i := 0; i < 256; i++ {
 		for word, _ := range valueMap {
 			sumArray[i] += (valueMap[word][i] * weightedMap[word])
@@ -95,7 +95,7 @@ func HashText(weightedMap map[string]int) []int {
 }
 
 //poredi dva niza hashiranih vrednosti i vraca hemingovo rastojanje
-func Compare(a []byte, b []byte) int {
+func Compare(a []int32, b []int32) int {
 
 	result := 0
 	for i := 0; i < 256; i++ {
@@ -107,7 +107,7 @@ func Compare(a []byte, b []byte) int {
 	return result
 }
 
-func BinaryHashToByte(binaryHash []int) []byte {
+func BinaryHashToByte(binaryHash []int32) []byte {
 	bytes := make([]byte, 0)
 	for i:= 0; i < len(binaryHash); i++ {
 		bytesElem := make([]byte, 4)
@@ -117,19 +117,19 @@ func BinaryHashToByte(binaryHash []int) []byte {
 	return bytes
 }
 
-func ByteToBinaryHash(HashedByte []byte) []int {
-	binaryHash := make([]int, 0)
+func ByteToBinaryHash(HashedByte []byte) []int32 {
+	binaryHash := make([]int32, 0)
 	reader := bytes.NewReader(HashedByte)
-	bytes := make([]byte, 4)
-
+	
 	//Ucitavamo podatke
-	for i:= 0; i < len(binaryHash); i++ {
+	for i:= 0; i < 256; i++ {
+		bytes := make([]byte, 4)
 		_, err := reader.Read(bytes)
 		if err != nil {
 			log.Fatal(err)
 		}
 		bit := binary.BigEndian.Uint32(bytes)
-		binaryHash = append(binaryHash, int(bit))
+		binaryHash = append(binaryHash, int32(bit))
 	}
 	return binaryHash
 }

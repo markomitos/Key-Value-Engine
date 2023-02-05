@@ -70,8 +70,11 @@ func SimHashCompare(mem MemTable, lru *LRUCache, bucket *TokenBucket) {
 			break
 		}
 	}
+	a := ByteToBinaryHash(data1.Value)
+	b := ByteToBinaryHash(data2.Value)
+
 	fmt.Print("Slicnost ova dva podatka iznosi: ")
-	fmt.Println(Compare(data1.Value, data2.Value))
+	fmt.Println(Compare(a, b))
 }
 
 
